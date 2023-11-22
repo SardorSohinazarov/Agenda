@@ -25,6 +25,9 @@ namespace Agenda.Services
             else if(text.StartsWith("/archive"))
             {
                 command = "/archive";
+            }else if(text.StartsWith("/listtodo"))
+            {
+                command = "/listtodo";
             }
 
             var textHandler = command switch
@@ -33,6 +36,7 @@ namespace Agenda.Services
                 "/todo" => ToDoCommandAsync(botClient, update, cancellationToken),
                 "/done" => DoneCommandAsync(botClient, update, cancellationToken),
                 "/archive" => ArchiveCommandAsync(botClient, update, cancellationToken),
+                "/listtodo" => ToDoListCommandAsync(botClient, update, cancellationToken),
                 _ => UnknownCommandAsync(botClient, update, cancellationToken)
             };
 
@@ -43,6 +47,27 @@ namespace Agenda.Services
             catch(Exception ex)
             {
                 Console.WriteLine("Hammasi yaxshi");
+            }
+        }
+
+        private async ValueTask ToDoListCommandAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
+        {
+            var todoList = await _toDoRepository.GetToDoListFromUserIdAsync(update.Message.From.Id);
+
+            if (todoList == null)
+            {
+                await SendTextMessageAsync("Hali bironta ham todo yo'q", botClient, update, cancellationToken);
+            }
+            else
+            {
+                var todoListString = string.Empty;
+
+                for(var i = 0;i < todoList.Count; i++)
+                {
+                    todoListString = todoListString + $"{i+1} {todoList[i].Description} \n";
+                }
+
+                await SendTextMessageAsync(todoListString, botClient, update, cancellationToken);   
             }
         }
 
@@ -88,6 +113,7 @@ namespace Agenda.Services
             {
                 TelegramId = tgUser.Id,
                 FirstName = tgUser.FirstName,
+                ChatId = update.Message.Chat.Id
             };
 
             if(tgUser.LastName != null)

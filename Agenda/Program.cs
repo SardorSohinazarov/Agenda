@@ -12,9 +12,9 @@ var token = builder.Configuration["token"];
 builder.Services.AddSingleton(new TelegramBotClient(token));
 
 builder.Services.AddHostedService<BotBackgroundService>();
+builder.Services.AddHostedService<ReminderBackgroundService>();
 
-builder.Services.AddDbContext<AgendaDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
+builder.Services.AddDbContext<AgendaDbContext>();
 
 builder.Services.AddScoped<IChallengerRepository, ChallengerRepository>();
 builder.Services.AddScoped<IToDoRepository, ToDoRepository>();

@@ -8,7 +8,9 @@ namespace Agenda.Services.BackGroundServices
         private TelegramBotClient _botClient;
         private IUpdateHandler _updateHandler;
 
-        public BotBackgroundService(TelegramBotClient botClient, IUpdateHandler updateHandler)
+        public BotBackgroundService(
+            TelegramBotClient botClient, 
+            IUpdateHandler updateHandler)
         {
             _botClient = botClient;
             _updateHandler = updateHandler;

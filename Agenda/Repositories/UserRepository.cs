@@ -45,5 +45,12 @@ namespace Agenda.Repositories
 
             return user;
         }
+
+        public async ValueTask<List<Challenger>> GetChallengesAsync()
+        {
+            var users = _context.Challengers.Include(x => x.ToDoList).ToList();
+
+            return users;
+        }
     }
 }

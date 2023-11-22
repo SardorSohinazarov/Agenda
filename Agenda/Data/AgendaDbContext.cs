@@ -19,5 +19,12 @@ namespace Agenda.Data
                 .WithOne(x => x.Challenger)
                 .HasForeignKey(x => x.ChallengerId);
         }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
+
+            optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=AgendaDB;");
+        }
     }
 }

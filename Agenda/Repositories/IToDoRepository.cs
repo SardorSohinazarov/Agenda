@@ -6,5 +6,6 @@ namespace Agenda.Repositories
     {
         ValueTask<ToDo> CreateToDoAsync(ToDo toDo);
         ValueTask<ToDo> DeleteToDoAsync(Guid id);
+        ValueTask<List<ToDo>> GetToDoListFromUserIdAsync(long id);
     }
 }

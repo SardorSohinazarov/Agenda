@@ -1,5 +1,4 @@
 ﻿using Agenda.Models;
-using Telegram.Bot.Types;
 
 namespace Agenda.Repositories
 {
@@ -8,5 +7,6 @@ namespace Agenda.Repositories
         ValueTask<Challenger> CreateChallengerAsync(Challenger challenger);
         ValueTask<Challenger> DeleteChallengerAsync(long id);
         ValueTask<Challenger> GetChallengerFromByIdAsync(long id);
+        ValueTask<List<Challenger>> GetChallengesAsync();
     }
 }

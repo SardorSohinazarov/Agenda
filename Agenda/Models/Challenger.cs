@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace Agenda.Models
+﻿namespace Agenda.Models
 {
     public class Challenger
     {
@@ -9,6 +7,7 @@ namespace Agenda.Models
         public string FirstName { get; set; }
         public string? LastName { get; set; }
         public string? Username { get; set; }
+        public long ChatId { get; set; }
 
         public List<ToDo>? ToDoList { get; set; }
     }

@@ -29,5 +29,13 @@ namespace Agenda.Repositories
 
             return deletedToDo.Entity;
         }
+
+        public async ValueTask<List<ToDo>> GetToDoListFromUserIdAsync(long id)
+        {
+            var user = await _dbContext.Challengers.FirstOrDefaultAsync(x => x.TelegramId == id);
+            var todoList = _dbContext.ToDos.Where(x => x.ChallengerId == user.Id).ToList();
+
+            return todoList;
+        }
     }
 }
