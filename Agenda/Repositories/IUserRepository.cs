@@ -3,8 +3,9 @@ using Telegram.Bot.Types;
 
 namespace Agenda.Repositories
 {
-    public interface IUserRepository
+    public interface IChallengerRepository
     {
-        ValueTask<Challenger> CreateUserAsync(Challenger challenger);
+        ValueTask<Challenger> CreateChallengerAsync(Challenger challenger);
+        ValueTask<Challenger> DeleteChallengerAsync(long id);
     }
 }
