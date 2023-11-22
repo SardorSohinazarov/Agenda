@@ -45,7 +45,7 @@ namespace Agenda.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Challengers");
+                    b.ToTable("Challengers", (string)null);
                 });
 
             modelBuilder.Entity("Agenda.Models.ToDo", b =>
@@ -68,7 +68,7 @@ namespace Agenda.Migrations
 
                     b.HasIndex("ChallengerId");
 
-                    b.ToTable("ToDo");
+                    b.ToTable("ToDos", (string)null);
                 });
 
             modelBuilder.Entity("Agenda.Models.ToDo", b =>

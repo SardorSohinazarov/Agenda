@@ -15,7 +15,9 @@ namespace Agenda.Migrations
                 name: "Challengers",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TelegramId = table.Column<long>(type: "bigint", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -26,7 +28,7 @@ namespace Agenda.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ToDo",
+                name: "ToDos",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -36,9 +38,9 @@ namespace Agenda.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ToDo", x => x.Id);
+                    table.PrimaryKey("PK_ToDos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ToDo_Challengers_ChallengerId",
+                        name: "FK_ToDos_Challengers_ChallengerId",
                         column: x => x.ChallengerId,
                         principalTable: "Challengers",
                         principalColumn: "Id",
@@ -46,8 +48,8 @@ namespace Agenda.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ToDo_ChallengerId",
-                table: "ToDo",
+                name: "IX_ToDos_ChallengerId",
+                table: "ToDos",
                 column: "ChallengerId");
         }
 
@@ -55,7 +57,7 @@ namespace Agenda.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ToDo");
+                name: "ToDos");
 
             migrationBuilder.DropTable(
                 name: "Challengers");

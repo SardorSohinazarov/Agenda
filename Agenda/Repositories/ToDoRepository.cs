@@ -15,7 +15,7 @@ namespace Agenda.Repositories
 
         public async ValueTask<ToDo> CreateToDoAsync(ToDo toDo)
         {
-            var newToDo = await _dbContext.ToDoList.AddAsync(toDo);
+            var newToDo = await _dbContext.ToDos.AddAsync(toDo);
             await _dbContext.SaveChangesAsync();
 
             return newToDo.Entity;
@@ -23,8 +23,8 @@ namespace Agenda.Repositories
 
         public async ValueTask<ToDo> DeleteToDoAsync(Guid id)
         {
-            var storageToDo = await _dbContext.ToDoList.FirstOrDefaultAsync(x => x.Id == id);
-            var deletedToDo = _dbContext.ToDoList.Remove(storageToDo);
+            var storageToDo = await _dbContext.ToDos.FirstOrDefaultAsync(x => x.Id == id);
+            var deletedToDo = _dbContext.ToDos.Remove(storageToDo);
             await _dbContext.SaveChangesAsync();
 
             return deletedToDo.Entity;

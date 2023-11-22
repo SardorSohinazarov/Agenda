@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Agenda.Migrations
 {
     [DbContext(typeof(AgendaDbContext))]
-    [Migration("20231122020918_KeyChanged")]
-    partial class KeyChanged
+    [Migration("20231122101625_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -71,7 +71,7 @@ namespace Agenda.Migrations
 
                     b.HasIndex("ChallengerId");
 
-                    b.ToTable("ToDo");
+                    b.ToTable("ToDos");
                 });
 
             modelBuilder.Entity("Agenda.Models.ToDo", b =>

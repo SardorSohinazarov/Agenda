@@ -8,7 +8,7 @@ namespace Agenda.Data
         public AgendaDbContext(DbContextOptions<AgendaDbContext> options):base(options) { }
 
         public DbSet<Challenger> Challengers { get; set; }
-        public DbSet<ToDo> ToDoList { get; set; }
+        public DbSet<ToDo> ToDos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

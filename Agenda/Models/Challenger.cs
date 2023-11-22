@@ -6,7 +6,7 @@ namespace Agenda.Models
     {
         public long Id { get; set; }
         public long TelegramId { get; set; }
-        public string FirstName { get; set; } = default!;
+        public string FirstName { get; set; }
         public string? LastName { get; set; }
         public string? Username { get; set; }
 
