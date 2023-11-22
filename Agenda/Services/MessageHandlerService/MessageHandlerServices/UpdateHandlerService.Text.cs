@@ -6,11 +6,28 @@ namespace Agenda.Services
 {
     public partial class UpdateHandlerService
     {
-        private async Task HandleTextMessageAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
+        private async ValueTask HandleTextMessageAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {
             var text = update.Message.Text;
+            var command = string.Empty;
+            if(text.StartsWith("/start"))
+            {
+                command = "/start";
+            }
+            else if(text.StartsWith("/todo"))
+            {
+                command = "/todo";
+            }
+            else if(text.StartsWith("/done"))
+            {
+                command = "/done";
+            }
+            else if(text.StartsWith("/archive"))
+            {
+                command = "/archive";
+            }
 
-            var textHandler = text switch
+            var textHandler = command switch
             {
                 "/start" => StartCommandAsync(botClient, update, cancellationToken),
                 "/todo" => ToDoCommandAsync(botClient, update, cancellationToken),
@@ -20,26 +37,37 @@ namespace Agenda.Services
             };
         }
 
-        private async Task UnknownCommandAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
+        private async ValueTask UnknownCommandAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {
             await SendTextMessageAsync("Unknown Command", botClient, update, cancellationToken);
         }
 
-        private async Task DoneCommandAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
+        private async ValueTask DoneCommandAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {
             await SendTextMessageAsync("Done", botClient, update, cancellationToken);
         }
 
-        private async Task ToDoCommandAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
+        private async ValueTask ToDoCommandAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {
-            await SendTextMessageAsync("ToDo", botClient, update, cancellationToken);
+            var challangerId = await _challengerRepository.GetChallengerFromByIdAsync(update.Message.From.Id);
+            
+            var newTodo = new ToDo
+            {
+                Description = update.Message.Text,
+                ChallengerId = challangerId.Id,
+                CreatedDate = DateTime.Now,
+            };
+
+            await _toDoRepository.CreateToDoAsync(newTodo);
+
+            await SendTextMessageAsync("ToDo listga qo'shildi", botClient, update, cancellationToken);
         }
 
-        private async Task StartCommandAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
+        private async ValueTask StartCommandAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {
             var tgUser = update.Message.From;
 
-            var existUser = await _repository.GetChallengerFromByIdAsync(tgUser.Id);
+            var existUser = await _challengerRepository.GetChallengerFromByIdAsync(tgUser.Id);
 
             if (existUser != null)
             {
@@ -58,17 +86,17 @@ namespace Agenda.Services
             if(tgUser.Username != null)
                 user.Username = tgUser.Username;
 
-            var savedUser = await _repository.CreateChallengerAsync(user);
+            var savedUser = await _challengerRepository.CreateChallengerAsync(user);
 
             await SendTextMessageAsync($"{savedUser.FirstName} Ro'yhatga olindi", botClient, update, cancellationToken);
         }
         
-        private async Task ArchiveCommandAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
+        private async ValueTask ArchiveCommandAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {
             await SendTextMessageAsync("Archive", botClient, update, cancellationToken);
         }
 
-        private async Task SendTextMessageAsync(string text,ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
+        private async ValueTask SendTextMessageAsync(string text,ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {
             await botClient.SendTextMessageAsync(
                 chatId: update.Message.Chat.Id,

@@ -26,7 +26,7 @@ namespace Agenda.Services
             }
         }
 
-        private Task HandleUnknownMessageAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
+        private ValueTask HandleUnknownMessageAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }

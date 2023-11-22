@@ -8,7 +8,8 @@ namespace Agenda.Services
 {
     public partial class UpdateHandlerService : IUpdateHandler
     {
-        private IChallengerRepository _repository;
+        private IChallengerRepository _challengerRepository;
+        private IToDoRepository _toDoRepository;
         private readonly IServiceScopeFactory _scopeFactory;
 
         public UpdateHandlerService(IServiceScopeFactory scopeFactory)
@@ -18,8 +19,11 @@ namespace Agenda.Services
 
         public async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {
-            var scope = _scopeFactory.CreateAsyncScope();
-            _repository = scope.ServiceProvider.GetService<IChallengerRepository>();
+            using (var scope = _scopeFactory.CreateAsyncScope())
+            {
+                _toDoRepository = scope.ServiceProvider.GetService<IToDoRepository>();
+                _challengerRepository = scope.ServiceProvider.GetService<IChallengerRepository>();
+            }
 
             var updateHandler = update.Type switch
             {

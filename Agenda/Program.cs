@@ -17,9 +17,9 @@ builder.Services.AddDbContext<AgendaDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 
 builder.Services.AddScoped<IChallengerRepository, ChallengerRepository>();
+builder.Services.AddScoped<IToDoRepository, ToDoRepository>();
 builder.Services.AddSingleton<IUpdateHandler, UpdateHandlerService>();
 
 var app = builder.Build();
-
 
 app.Run();
