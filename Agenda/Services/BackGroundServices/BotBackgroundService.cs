@@ -1,7 +1,7 @@
 ﻿using Telegram.Bot;
 using Telegram.Bot.Polling;
 
-namespace Agenda.BackGroundServices
+namespace Agenda.Services.BackGroundServices
 {
     public class BotBackgroundService : BackgroundService
     {
