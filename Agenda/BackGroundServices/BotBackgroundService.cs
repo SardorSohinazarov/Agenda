@@ -10,13 +10,13 @@ namespace Agenda.BackGroundServices
         public BotBackgroundService(TelegramBotClient botClient)
             => _botClient = botClient;
 
-        protected override Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            await _botClient.GetMeAsync(stoppingToken);
+
             Console.WriteLine("Botimiz eshitishni boshladi");
 
             _botClient.StartReceiving<UpdateHandlerService>(null,stoppingToken);
-
-            return Task.CompletedTask;
         }
     }
 }
