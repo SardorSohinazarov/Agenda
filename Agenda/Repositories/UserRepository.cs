@@ -7,12 +7,9 @@ namespace Agenda.Repositories
     public class ChallengerRepository : IChallengerRepository
     {
         private readonly AgendaDbContext _context;
-        private readonly ILogger<ChallengerRepository> _logger;
-
-        public ChallengerRepository(AgendaDbContext context, ILogger<ChallengerRepository> logger)
+        public ChallengerRepository(AgendaDbContext context)
         {
-            _context = context;
-            _logger = logger;
+            _context = context ?? throw new ArgumentNullException(nameof(AgendaDbContext));
         }
 
         public async ValueTask<Challenger> CreateChallengerAsync(Challenger challenger)
@@ -42,7 +39,6 @@ namespace Agenda.Repositories
         {
             var users = _context.Challengers.ToList();
             var user = await _context.Challengers.FirstOrDefaultAsync(ch => ch.TelegramId == id);
-            _logger.Log(LogLevel.Information,"Hammasi yaxshi xozircha");
 
             if(user == null)
                 Console.WriteLine();

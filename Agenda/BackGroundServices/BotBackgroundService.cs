@@ -1,6 +1,4 @@
-﻿using Agenda.Services;
-using Microsoft.EntityFrameworkCore.Update;
-using Telegram.Bot;
+﻿using Telegram.Bot;
 using Telegram.Bot.Polling;
 
 namespace Agenda.BackGroundServices

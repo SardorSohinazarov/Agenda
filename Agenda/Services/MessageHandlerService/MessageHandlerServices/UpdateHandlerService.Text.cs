@@ -35,6 +35,15 @@ namespace Agenda.Services
                 "/archive" => ArchiveCommandAsync(botClient, update, cancellationToken),
                 _ => UnknownCommandAsync(botClient, update, cancellationToken)
             };
+
+            try
+            {
+                await textHandler;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("Hammasi yaxshi");
+            }
         }
 
         private async ValueTask UnknownCommandAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
@@ -49,12 +58,12 @@ namespace Agenda.Services
 
         private async ValueTask ToDoCommandAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {
-            var challangerId = await _challengerRepository.GetChallengerFromByIdAsync(update.Message.From.Id);
+            var challanger = await _challengerRepository.GetChallengerFromByIdAsync(update.Message.From.Id);
             
             var newTodo = new ToDo
             {
                 Description = update.Message.Text,
-                ChallengerId = challangerId.Id,
+                ChallengerId = challanger.Id,
                 CreatedDate = DateTime.Now,
             };
 
