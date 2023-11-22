@@ -8,5 +8,7 @@ namespace Agenda.Models
         public string FirstName { get; set; } = default!;
         public string? LastName { get; set; }
         public string? Username { get; set; }
+
+        public List<ToDo> ToDoList { get; set; }
     }
 }

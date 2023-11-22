@@ -8,5 +8,15 @@ namespace Agenda.Data
         public AgendaDbContext(DbContextOptions<AgendaDbContext> options):base(options) { }
 
         public DbSet<Challenger> Challengers { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Challenger>()
+                .HasMany(x => x.ToDoList)
+                .WithOne(x => x.Challenger)
+                .HasForeignKey(x => x.ChallengerId);
+        }
     }
 }
