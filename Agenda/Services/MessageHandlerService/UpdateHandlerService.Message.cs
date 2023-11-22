@@ -2,33 +2,30 @@
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
-namespace Agenda.Services
+namespace Agenda.Services;
+
+public partial class UpdateHandlerService
 {
-    public partial class UpdateHandlerService
+    private async Task HandleMessageAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
     {
-        private async Task HandleMessageAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
+        var message = update.Message;
+
+        var messageHandler = message.Type switch
         {
-            var message = update.Message;
+            MessageType.Text => HandleTextMessageAsync(botClient, update, cancellationToken),
+            _ => HandleUnknownMessageAsync(botClient, update, cancellationToken),
+        };
 
-            var messageHandler = message.Type switch
-            {
-                MessageType.Text => HandleTextMessageAsync(botClient, update, cancellationToken),
-                _ => HandleUnknownMessageAsync(botClient,  update, cancellationToken),
-            };
-
-            try
-            {
-                await messageHandler;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
+        try
+        {
+            await messageHandler;
         }
-
-        private ValueTask HandleUnknownMessageAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
+        catch (Exception ex)
         {
-            throw new NotImplementedException();
+            Console.WriteLine(ex.Message);
         }
     }
+
+    private ValueTask HandleUnknownMessageAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
+        => throw new NotImplementedException();
 }

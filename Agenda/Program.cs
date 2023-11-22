@@ -2,7 +2,6 @@ using Agenda.Data;
 using Agenda.Repositories;
 using Agenda.Services;
 using Agenda.Services.BackGroundServices;
-using Microsoft.EntityFrameworkCore;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
 

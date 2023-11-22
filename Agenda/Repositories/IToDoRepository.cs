@@ -1,11 +1,10 @@
 ﻿using Agenda.Models;
 
-namespace Agenda.Repositories
+namespace Agenda.Repositories;
+
+public interface IToDoRepository
 {
-    public interface IToDoRepository
-    {
-        ValueTask<ToDo> CreateToDoAsync(ToDo toDo);
-        ValueTask<ToDo> DeleteToDoAsync(Guid id);
-        ValueTask<List<ToDo>> GetToDoListFromUserIdAsync(long id);
-    }
+    ValueTask<ToDo> CreateToDoAsync(ToDo toDo);
+    ValueTask<ToDo> DeleteToDoAsync(Guid id);
+    ValueTask<List<ToDo>> GetToDoListFromUserIdAsync(long id);
 }

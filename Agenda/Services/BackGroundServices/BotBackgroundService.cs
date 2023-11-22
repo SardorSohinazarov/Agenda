@@ -1,32 +1,31 @@
 ﻿using Telegram.Bot;
 using Telegram.Bot.Polling;
 
-namespace Agenda.Services.BackGroundServices
+namespace Agenda.Services.BackGroundServices;
+
+public class BotBackgroundService : BackgroundService
 {
-    public class BotBackgroundService : BackgroundService
+    private TelegramBotClient _botClient;
+    private IUpdateHandler _updateHandler;
+
+    public BotBackgroundService(
+        TelegramBotClient botClient,
+        IUpdateHandler updateHandler)
     {
-        private TelegramBotClient _botClient;
-        private IUpdateHandler _updateHandler;
+        _botClient = botClient;
+        _updateHandler = updateHandler;
+    }
 
-        public BotBackgroundService(
-            TelegramBotClient botClient, 
-            IUpdateHandler updateHandler)
-        {
-            _botClient = botClient;
-            _updateHandler = updateHandler;
-        }
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    {
+        var bot = await _botClient.GetMeAsync(stoppingToken);
 
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
-        {
-            await _botClient.GetMeAsync(stoppingToken);
+        Console.WriteLine($"Botimiz eshitishni boshladi:{bot.Username}");
 
-            Console.WriteLine("Botimiz eshitishni boshladi");
-
-            _botClient.StartReceiving(
-                _updateHandler.HandleUpdateAsync,
-                _updateHandler.HandlePollingErrorAsync,
-                new ReceiverOptions() { ThrowPendingUpdates = true },
-                stoppingToken);
-        }
+        _botClient.StartReceiving(
+            updateHandler: _updateHandler.HandleUpdateAsync,
+            pollingErrorHandler: _updateHandler.HandlePollingErrorAsync,
+            receiverOptions: new ReceiverOptions() { ThrowPendingUpdates = true },
+            cancellationToken: stoppingToken);
     }
 }

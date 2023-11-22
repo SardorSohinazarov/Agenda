@@ -1,12 +1,11 @@
 ﻿using Agenda.Models;
 
-namespace Agenda.Repositories
+namespace Agenda.Repositories;
+
+public interface IChallengerRepository
 {
-    public interface IChallengerRepository
-    {
-        ValueTask<Challenger> CreateChallengerAsync(Challenger challenger);
-        ValueTask<Challenger> DeleteChallengerAsync(long id);
-        ValueTask<Challenger> GetChallengerFromByIdAsync(long id);
-        ValueTask<List<Challenger>> GetChallengesAsync();
-    }
+    ValueTask<Challenger> CreateChallengerAsync(Challenger challenger);
+    ValueTask<Challenger> DeleteChallengerAsync(long id);
+    ValueTask<Challenger> GetChallengerFromByIdAsync(long id);
+    ValueTask<List<Challenger>> GetChallengesAsync();
 }
