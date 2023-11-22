@@ -1,14 +1,20 @@
 ﻿using Agenda.Services;
+using Microsoft.EntityFrameworkCore.Update;
 using Telegram.Bot;
+using Telegram.Bot.Polling;
 
 namespace Agenda.BackGroundServices
 {
     public class BotBackgroundService : BackgroundService
     {
         private TelegramBotClient _botClient;
+        private IUpdateHandler _updateHandler;
 
-        public BotBackgroundService(TelegramBotClient botClient)
-            => _botClient = botClient;
+        public BotBackgroundService(TelegramBotClient botClient, IUpdateHandler updateHandler)
+        {
+            _botClient = botClient;
+            _updateHandler = updateHandler;
+        }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
@@ -16,7 +22,11 @@ namespace Agenda.BackGroundServices
 
             Console.WriteLine("Botimiz eshitishni boshladi");
 
-            _botClient.StartReceiving<UpdateHandlerService>(null,stoppingToken);
+            _botClient.StartReceiving(
+                _updateHandler.HandleUpdateAsync,
+                _updateHandler.HandlePollingErrorAsync,
+                new ReceiverOptions() { ThrowPendingUpdates = true },
+                stoppingToken);
         }
     }
 }

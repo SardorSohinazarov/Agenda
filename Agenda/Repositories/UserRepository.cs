@@ -21,7 +21,7 @@ namespace Agenda.Repositories
 
         public async ValueTask<Challenger> DeleteChallengerAsync(long id)
         {
-            var storageChallenger = await _context.Challengers.FirstOrDefaultAsync(ch => ch.Id == id);
+            var storageChallenger = await _context.Challengers.FirstOrDefaultAsync(ch => ch.TelegramId == id);
 
             if(storageChallenger == null)
             {
@@ -29,8 +29,12 @@ namespace Agenda.Repositories
             }
 
             var deletedChallenger = _context.Challengers.Remove(storageChallenger);
+            await _context.SaveChangesAsync();
 
             return deletedChallenger.Entity;
         }
+
+        public async ValueTask<Challenger> GetChallengerFromByIdAsync(long id)
+            => await _context.Challengers.AsNoTracking().FirstOrDefaultAsync(ch => ch.TelegramId == id);
     }
 }

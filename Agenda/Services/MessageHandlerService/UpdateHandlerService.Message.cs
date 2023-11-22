@@ -13,7 +13,7 @@ namespace Agenda.Services
             var messageHandler = message.Type switch
             {
                 MessageType.Text => HandleTextMessageAsync(botClient, update, cancellationToken),
-                _ => HandleUnknownMessageAsync(botClient,update, cancellationToken),
+                _ => HandleUnknownMessageAsync(botClient,  update, cancellationToken),
             };
 
             try
@@ -26,7 +26,7 @@ namespace Agenda.Services
             }
         }
 
-        private Task HandleUnknownMessageAsync(ITelegramBotClient botClient, Message message, CancellationToken cancellationToken)
+        private Task HandleUnknownMessageAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }

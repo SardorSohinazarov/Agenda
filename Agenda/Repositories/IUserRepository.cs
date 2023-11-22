@@ -7,5 +7,6 @@ namespace Agenda.Repositories
     {
         ValueTask<Challenger> CreateChallengerAsync(Challenger challenger);
         ValueTask<Challenger> DeleteChallengerAsync(long id);
+        ValueTask<Challenger> GetChallengerFromByIdAsync(long id);
     }
 }
