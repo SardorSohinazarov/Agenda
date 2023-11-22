@@ -23,8 +23,11 @@ namespace Agenda.Services.BackGroundServices
             while(!stoppingToken.IsCancellationRequested) 
             {
                 var now = DateTime.Now;
-                if(now.Hour == 18 && now.Minute == 47 && now.Second == 0)
-                    {
+                if(
+                    (now.Hour == 8 || now.Hour == 12 || now.Hour == 18) 
+                    && now.Minute == 0 
+                    && now.Second == 0)
+                {
                     var users = await StaticUsersRepository.GetAllChallengesAsync();
 
                     foreach (var user in users)
