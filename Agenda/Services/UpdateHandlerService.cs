@@ -8,7 +8,7 @@ namespace Agenda.Services
 {
     public partial class UpdateHandlerService : IUpdateHandler
     {
-        private ChallengerRepository _challengerRepository;
+        private IChallengerRepository _challengerRepository;
         private IToDoRepository _toDoRepository;
         private readonly IServiceScopeFactory _scopeFactory;
 
@@ -21,7 +21,7 @@ namespace Agenda.Services
         {
             using var scope = _scopeFactory.CreateAsyncScope();
             _toDoRepository = scope.ServiceProvider.GetService<IToDoRepository>();
-            _challengerRepository = scope.ServiceProvider.GetService<ChallengerRepository>();
+            _challengerRepository = scope.ServiceProvider.GetService<IChallengerRepository>();
 
             var updateHandler = update.Type switch
             {
