@@ -6,7 +6,10 @@ namespace Agenda.Data
     public class AgendaDbContext : DbContext
     {
         public AgendaDbContext(DbContextOptions<AgendaDbContext> options) 
-            : base(options) { }
+            : base(options) 
+        {
+            Database.Migrate();
+        }
 
         public DbSet<Challenger> Challengers { get; set; }
         public DbSet<ToDo> ToDos { get; set; }
